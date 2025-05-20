@@ -1,103 +1,183 @@
-import Image from "next/image";
+"use client";
+import Navbar from "./components/Navbar";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+import "leaflet/dist/leaflet.css";
 
+const MapPreview = dynamic(() => import("./components/MapPreview"), {
+  ssr: false,
+});
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [monitoringData, setMonitoringData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+  useEffect(() => {
+    axios
+      .get("https://node-backend-oyy4.onrender.com/api/v1/users/login-data")
+      .then((response) => {
+        setMonitoringData(response.data?.data || []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching monitoring data:", err);
+        setError("Failed to load data");
+        setLoading(false);
+      });
+  }, []);
+
+  const openCoordinatesInGoogleMaps = (lat, lng) => {
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+    window.open(googleMapsUrl, "_blank");
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <Navbar />
+      <main className="p-6 sm:p-10">
+        {loading && (
+          <div className="text-center text-gray-600">
+            Loading monitoring data...
+          </div>
+        )}
+        {error && <div className="text-center text-red-500">{error}</div>}
+
+        {!loading && !error && (
+          <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-[80px]">
+            {monitoringData.map((item, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl shadow-lg p-6 transition hover:shadow-2xl cursor-pointer"
+                onClick={() => setSelectedUser(item)}
+              >
+                <div className="mb-4">
+                  <h2 className="text-2xl font-bold text-gray-800">
+                    {item.name}
+                  </h2>
+                  <span className="inline-block mt-2 px-3 py-1 text-sm font-medium bg-cyan-100 text-cyan-800 rounded-full">
+                    {item.login_type}
+                  </span>
+                </div>
+                <div className="text-gray-600 space-y-1">
+                  <p>
+                    <span className="font-semibold">Name:</span> {item.fullName}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Emp Id:</span> {item.empId}
+                  </p>
+                  <p>
+                    <span className="font-semibold">Device Id:</span>{" "}
+                    {item.deviceId}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      {/* Modal */}
+      {selectedUser && (
+        <div className="fixed inset-0 z-50 bg-transparent bg-opacity-30 flex justify-center items-start overflow-y-auto pt-10 pb-10 px-4">
+          <div className="bg-white w-full max-w-md p-6 rounded-xl shadow-lg relative">
+            <button
+              onClick={() => setSelectedUser(null)}
+              className="absolute top-2 right-3 text-gray-400 hover:text-red-500 text-xl"
+            >
+              &times;
+            </button>
+            <h2 className="text-2xl font-bold mb-2">{selectedUser.name}</h2>
+            <p className="text-sm text-gray-600 mb-4">
+              Login Type: {selectedUser.login_type}
+            </p>
+
+            <div className="text-gray-700 space-y-2 text-sm">
+              <p>
+                <span className="font-semibold">Full Name:</span>{" "}
+                {selectedUser.fullName}
+              </p>
+              <p>
+                <span className="font-semibold">Emp Id:</span>{" "}
+                {selectedUser.empId}
+              </p>
+              <p>
+                <span className="font-semibold">Device Id:</span>{" "}
+                {selectedUser.deviceId}
+              </p>
+              <p>
+                <span className="font-semibold">Last Location:</span>{" "}
+                {selectedUser.location.coordinates[0]},{" "}
+                {selectedUser.location.coordinates[1]}
+              </p>
+            </div>
+
+            <div className="mt-4">
+              <button
+                onClick={() =>
+                  openCoordinatesInGoogleMaps(
+                    selectedUser.location.coordinates[1],
+                    selectedUser.location.coordinates[0]
+                  )
+                }
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+              >
+                View on Map
+              </button>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-2 mt-4">
+                📱 Accounts Accessed
+              </h3>
+              <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+                {selectedUser.usedBy?.length > 0 ? (
+                  selectedUser.usedBy.map((entry, index) => (
+                    <div
+                      key={index}
+                      className="border rounded-lg p-3 bg-gray-50 shadow-sm"
+                    >
+                      <p className="font-semibold">{entry.fullName}</p>
+                      <p className="text-sm text-gray-600">
+                        Phone: {entry.phone}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        App Type: {entry.appType}
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        Accessed: {new Date(entry.createdAt).toLocaleString()}
+                      </p>
+                      <button
+                        onClick={() =>
+                          openCoordinatesInGoogleMaps(
+                            entry.location.coordinates[1],
+                            entry.location.coordinates[0]
+                          )
+                        }
+                        className="mt-1 inline-block text-blue-600 text-sm hover:underline"
+                      >
+                        View Location on Map
+                      </button>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-500">
+                    No access records found.
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="mt-[20px]">
+              <MapPreview
+                lat={selectedUser.location.coordinates[1]}
+                lng={selectedUser.location.coordinates[0]}
+                history={selectedUser.usedBy}
+              />
+            </div>
+          </div>
+          {/* Used By Section */}
+        </div>
+      )}
     </div>
   );
 }
