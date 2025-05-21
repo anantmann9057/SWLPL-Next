@@ -80,8 +80,8 @@ export default function Home() {
 
       {/* Modal */}
       {selectedUser && (
-        <div className="fixed inset-0 z-50 bg-transparent bg-opacity-30 flex justify-center items-start overflow-y-auto pt-10 pb-10 px-4">
-          <div className="bg-white w-full max-w-md p-6 rounded-xl shadow-lg relative">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-30 flex justify-center items-start overflow-y-auto pt-10 pb-10 px-4">
+          <div className="bg-white  p-6 rounded-xl shadow-lg relative w-[80%]">
             <button
               onClick={() => setSelectedUser(null)}
               className="absolute top-2 right-3 text-gray-400 hover:text-red-500 text-xl"

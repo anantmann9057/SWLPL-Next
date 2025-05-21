@@ -2,6 +2,7 @@
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 
+// Fix default icon paths
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
@@ -17,17 +18,24 @@ export default function MapPreview({ lat, lng, history = [] }) {
       scrollWheelZoom={false}
       style={{ height: "300px", borderRadius: "12px" }}
     >
-     <TileLayer
-  url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
-  attribution='Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community'
-/>
+      {/* Satellite Layer */}
+      <TileLayer
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"
+        attribution='Tiles © Esri — Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community'
+      />
 
-      {/* Current Location */}
+      {/* Label Overlay */}
+      <TileLayer
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}"
+        attribution="Labels © Esri"
+      />
+
+      {/* Current Location Marker */}
       <Marker position={[lat, lng]}>
         <Popup>Current Location</Popup>
       </Marker>
 
-      {/* Historical Usage
+      {/* Historical Markers (uncomment to use)
       {history.map((entry, index) => (
         <Marker
           key={index}

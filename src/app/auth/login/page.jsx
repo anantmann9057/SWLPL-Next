@@ -15,8 +15,10 @@ export default function LoginPage() {
         password: password,
       })
       .then((response) => {
-        router.push("/");
+        if (response.status == 200) {
           notify("login success");
+          router.push("/");
+        }
       })
       .catch((error) => {
         notify("login failed");

@@ -16,8 +16,10 @@ export default function SignupPage() {
         password: event.target[1].value,
       })
       .then((response) => {
-        router.push("/auth/login");
-        notify("you may now login!");
+        if (response.status == 200) {
+          router.push("/auth/login");
+          notify("you may now login!");
+        }
       })
       .catch((e) => {});
   };

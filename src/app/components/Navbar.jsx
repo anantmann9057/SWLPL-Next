@@ -2,9 +2,21 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 export default function Navbar() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-
+  const handleLogout = () => {
+    axios
+      .get("api/logout")
+      .then((response) => {
+        if (response.status == 200) {
+          router.push("/auth/login");
+        }
+      })
+      .catch((e) => {});
+  };
   return (
     <nav className="bg-white shadow-md fixed w-full z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -15,7 +27,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-6">
+          <div className="hidden md:flex space-x-6 items-center">
             <Link href="/" className="text-gray-700 hover:text-cyan-900">
               Dashboard
             </Link>
@@ -25,6 +37,12 @@ export default function Navbar() {
             <Link href="/url" className="text-gray-700 hover:text-cyan-900">
               URL Config
             </Link>
+            <button
+              class="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -52,6 +70,12 @@ export default function Navbar() {
           <Link href="/url" className="block text-gray-700 hover:text-blue-500">
             URL Config
           </Link>
+          <button
+            class="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
+            onClick={handleLogout}
+          >
+            Logout
+          </button>
         </div>
       )}
     </nav>
