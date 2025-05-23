@@ -95,9 +95,6 @@ export default function Home() {
               &times;
             </button>
             <h2 className="text-2xl font-bold mb-2">{selectedUser.name}</h2>
-            <p className="text-sm text-gray-600 mb-4">
-              Login Type: {selectedUser.login_type}
-            </p>
 
             <div className="text-gray-700 space-y-2 text-sm">
               <p>
@@ -127,7 +124,7 @@ export default function Home() {
                     selectedUser.location.coordinates[0]
                   )
                 }
-                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
+                className="px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-lg font-bold"
               >
                 View on Map
               </button>
@@ -160,7 +157,7 @@ export default function Home() {
                             entry.location.coordinates[0]
                           )
                         }
-                        className="mt-1 inline-block text-blue-600 text-sm hover:underline"
+                        className="mt-1 inline-block text-cyan-600 text-sm hover:underline font-bold"
                       >
                         View Location on Map
                       </button>
