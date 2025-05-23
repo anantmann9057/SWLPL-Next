@@ -24,8 +24,8 @@ export default function SignupPage() {
       .catch((e) => {});
   };
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+    <div className="min-h-screen bg-gray-100  bg-gradient-to-r from-cyan-500 to-cyan-600 flex items-center justify-center">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md m-5">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Create an Account
         </h2>

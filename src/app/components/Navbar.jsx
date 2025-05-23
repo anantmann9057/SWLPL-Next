@@ -34,11 +34,8 @@ export default function Navbar() {
             <Link href="/version" className="text-gray-700 hover:text-cyan-900">
               Version
             </Link>
-            <Link href="/url" className="text-gray-700 hover:text-cyan-900">
-              URL Config
-            </Link>
             <button
-              class="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
+              className="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
               onClick={handleLogout}
             >
               Logout
@@ -67,9 +64,7 @@ export default function Navbar() {
           >
             Version
           </Link>
-          <Link href="/url" className="block text-gray-700 hover:text-blue-500">
-            URL Config
-          </Link>
+         
           <button
             class="bg-red-700 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
             onClick={handleLogout}

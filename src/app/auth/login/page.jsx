@@ -27,8 +27,8 @@ export default function LoginPage() {
       });
   };
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-500 to-cyan-600 flex items-center justify-center">
-      <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-r from-cyan-500 to-cyan-600 flex items-center justify-center">
+      <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md m-5">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
           Sign in to your account
         </h2>
@@ -62,16 +62,6 @@ export default function LoginPage() {
               required
               className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-          </div>
-
-          <div className="flex items-center justify-between text-sm">
-            <label className="flex items-center">
-              <input type="checkbox" className="mr-2" />
-              Remember me
-            </label>
-            <a href="#" className="text-indigo-600 hover:underline">
-              Forgot password?
-            </a>
           </div>
 
           <button

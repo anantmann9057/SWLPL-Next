@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import "leaflet/dist/leaflet.css";
-
+import { MoonLoader } from "react-spinners";
 const MapPreview = dynamic(() => import("./components/MapPreview"), {
   ssr: false,
 });
@@ -34,12 +34,18 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 items-center">
       <Navbar />
       <main className="p-6 sm:p-10">
         {loading && (
-          <div className="text-center text-gray-600">
-            Loading monitoring data...
+          <div className="flex justify-center items-center h-[calc(100vh-80px)]">
+            <MoonLoader
+              color={"cyan"}
+              loading={loading}
+              size={150}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
           </div>
         )}
         {error && <div className="text-center text-red-500">{error}</div>}
@@ -92,7 +98,7 @@ export default function Home() {
             <p className="text-sm text-gray-600 mb-4">
               Login Type: {selectedUser.login_type}
             </p>
-
+          
             <div className="text-gray-700 space-y-2 text-sm">
               <p>
                 <span className="font-semibold">Full Name:</span>{" "}
