@@ -40,7 +40,7 @@ export default function Home() {
         {loading && (
           <div className="flex justify-center items-center h-[calc(100vh-80px)]">
             <MoonLoader
-              color={"cyan"}
+              color={"red"}
               loading={loading}
               size={150}
               aria-label="Loading Spinner"
@@ -62,7 +62,7 @@ export default function Home() {
                   <h2 className="text-2xl font-bold text-gray-800">
                     {item.name}
                   </h2>
-                  <span className="inline-block mt-2 px-3 py-1 text-sm font-medium bg-cyan-100 text-cyan-800 rounded-full">
+                  <span className="inline-block mt-2 px-3 py-1 text-sm font-medium bg-cyan-900 text-cyan-800 rounded-full">
                     {item.login_type}
                   </span>
                 </div>
@@ -98,7 +98,7 @@ export default function Home() {
             <p className="text-sm text-gray-600 mb-4">
               Login Type: {selectedUser.login_type}
             </p>
-          
+
             <div className="text-gray-700 space-y-2 text-sm">
               <p>
                 <span className="font-semibold">Full Name:</span>{" "}
