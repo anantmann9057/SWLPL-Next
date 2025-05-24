@@ -1,6 +1,6 @@
 export default function Terms() {
   return (
-    <div>
+    <div className="h-full max-h-screen overflow-y-auto flex flex-col flex-grow ">
       <div className="col-xs-12 padding-horizontal-0">
         <div
           className="col-xs-12 padding-horizontal-0 margin-top-10 term-header"
